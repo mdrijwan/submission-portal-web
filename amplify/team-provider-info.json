@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-submissionportalweb-dev-184632-authRole",
+      "UnauthRoleArn": "arn:aws:iam::705980712824:role/amplify-submissionportalweb-dev-184632-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::705980712824:role/amplify-submissionportalweb-dev-184632-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-submissionportalweb-dev-184632-deployment",
+      "UnauthRoleName": "amplify-submissionportalweb-dev-184632-unauthRole",
+      "StackName": "amplify-submissionportalweb-dev-184632",
+      "StackId": "arn:aws:cloudformation:us-east-1:705980712824:stack/amplify-submissionportalweb-dev-184632/c8f96a50-69b5-11ee-9eb1-0ad1d2340a79",
+      "AmplifyAppId": "dlrs3z5jcw5jj"
+    },
+    "categories": {
+      "auth": {
+        "submissionportal": {}
+      }
+    }
+  }
+}

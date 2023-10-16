@@ -44,6 +44,10 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can checkout the app here
 [Submission Portal](https://main.dlrs3z5jcw5jj.amplifyapp.com/).
 
-Api diagram here
+### API Diagram
 
 ![API Diagram](https://github.com/mdrijwan/submission-portal-api/blob/main/src/resources/api-diagram.png)
+
+### API Integratioon
+
+This app is integrated with the [Submission Portal API](https://github.com/mdrijwan/submission-portal-api). Only authenticated users from the app can access the API.

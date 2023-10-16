@@ -39,11 +39,6 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Try the App
-
-You can checkout the app here
-[Submission Portal](https://main.dlrs3z5jcw5jj.amplifyapp.com/).
-
 ### API Diagram
 
 ![API Diagram](https://github.com/mdrijwan/submission-portal-api/blob/main/src/resources/api-diagram.png)
@@ -51,3 +46,8 @@ You can checkout the app here
 ### API Integratioon
 
 This app is integrated with the [Submission Portal API](https://github.com/mdrijwan/submission-portal-api). Only authenticated users from the app can access the API.
+
+### Try the App
+
+You can checkout the app here
+[Submission Portal](https://main.dlrs3z5jcw5jj.amplifyapp.com/).

@@ -46,11 +46,11 @@ class LoginContainer extends React.Component<Props, State> {
 
               localStorage.setItem(
                 AUTH_USER_TOKEN_KEY,
-                user.signInUserSession.accessToken.jwtToken
+                user.signInUserSession.idToken.jwtToken
               )
               console.log(
                 'TOKEN: ',
-                user.signInUserSession.accessToken.jwtToken
+                user.signInUserSession.idToken.jwtToken
               )
 
               notification.success({

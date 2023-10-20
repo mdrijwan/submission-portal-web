@@ -49,5 +49,5 @@ This app is integrated with the [Submission Portal API](https://github.com/mdrij
 
 ### Try the App
 
-You can checkout the app here
+You can checkout the app here which is live!
 [Submission Portal](https://main.dlrs3z5jcw5jj.amplifyapp.com/).

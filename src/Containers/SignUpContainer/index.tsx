@@ -1,6 +1,6 @@
+import axios from 'axios'
 import * as React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { Auth } from 'aws-amplify'
 import {
   Form,
   Input,
@@ -39,6 +39,8 @@ type UserFormData = {
 }
 
 const passwordValidator = require('password-validator')
+
+const baseUrl = 'https://t5n7j723yd.execute-api.us-east-1.amazonaws.com'
 
 // create a password schema
 const schema = new passwordValidator()
@@ -110,20 +112,19 @@ class SignUpContainer extends React.Component<Props, State> {
           // show loader
           this.setState({ loading: true })
 
-          Auth.signUp({
+          axios
+          .post(`${baseUrl}/register`, {
             username: email,
             password,
-            attributes: {
-              email,
-              name: `${fname} ${lname}`,
-              phone_number: phoneNumber,
-            },
+            fname,
+            lname,
+            phone: phoneNumber
           })
-            .then(() => {
+            .then((response) => {
+              console.log('RES: ', response.data)
               notification.success({
                 message: 'Succesfully signed up user!',
-                description:
-                  'Account created successfully, Redirecting you in a few!',
+                description: 'Account created successfully, Redirecting you in a few!',
                 placement: 'topRight',
                 duration: 1.5,
                 onClose: () => {
@@ -134,6 +135,7 @@ class SignUpContainer extends React.Component<Props, State> {
               this.setState({ email })
             })
             .catch((err) => {
+              console.log(err)
               notification.error({
                 message: 'Error',
                 description: 'Error signing up user',

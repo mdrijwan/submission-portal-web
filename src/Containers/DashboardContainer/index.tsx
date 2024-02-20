@@ -9,14 +9,18 @@ import { colors } from '../../Themes/Colors'
 /** App Constatns */
 import { AUTH_USER_TOKEN_KEY } from '../../Utils/constants'
 import { ClickParam } from 'antd/lib/menu'
+let fullName = sessionStorage.getItem('fullName')
+// console.log('FULL NAME', fullName)
 
 const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
   const [collapsed, setCollapsed] = React.useState(false)
   const handleLogout = async (event: ClickParam) => {
     const { history } = props
+
     try {
       await Auth.signOut({ global: true }).then(() => {
         localStorage.removeItem(AUTH_USER_TOKEN_KEY)
+        sessionStorage.removeItem(fullName)
         history.push('/login')
       })
     } catch (err) {
@@ -26,12 +30,7 @@ const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
 
   return (
     <Layout className="cover" id="app-header">
-      <Layout.Sider
-        className="cover"
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-      >
+      <Layout.Sider className="cover" trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item key="1">
@@ -49,8 +48,7 @@ const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
         </Menu>
       </Layout.Sider>
       <Layout>
-        <Layout.Header style={{ background: colors.white,
-padding: 0 }}>
+        <Layout.Header style={{ background: colors.white, padding: 0 }}>
           <Icon
             className="trigger"
             onClick={() => setCollapsed(!collapsed)}
@@ -66,7 +64,7 @@ padding: 0 }}>
           }}
         >
           <div className="text-center">
-            <h1>Hello world</h1>
+            <h1>`Hello there {fullName}`</h1>
           </div>
         </Layout.Content>
       </Layout>

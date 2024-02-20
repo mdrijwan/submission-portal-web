@@ -1,6 +1,6 @@
+import axios from 'axios'
 import * as React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
-import { Auth } from 'aws-amplify'
 import {
   Form,
   Input,
@@ -26,6 +26,8 @@ type State = {
   redirect: boolean
   loading: boolean
 }
+
+const baseUrl = 'https://t5n7j723yd.execute-api.us-east-1.amazonaws.com'
 
 class PasswordResetContainer extends React.Component<Props, State> {
   state = {
@@ -75,11 +77,12 @@ class PasswordResetContainer extends React.Component<Props, State> {
           const { password, code } = values
           const username = this.props.location.search.split('=')[1]
 
-          Auth.forgotPasswordSubmit(
-            username.trim(),
-            code.trim(),
-            password.trim()
-          )
+          axios
+            .post(`${baseUrl}/confirmPassword`, {
+              username,
+              code,
+              password
+            })
             .then(() => {
               notification.success({
                 message: 'Success!',

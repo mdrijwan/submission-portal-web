@@ -1,4 +1,3 @@
-import axios from 'axios'
 import * as React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { Spin, Icon, Button, Form, notification, Input, Col } from 'antd'
@@ -17,8 +16,6 @@ type State = {
   confirmationCode: string
   error: string
 }
-
-const baseUrl = 'https://t5n7j723yd.execute-api.us-east-1.amazonaws.com'
 
 class ConfirmEmailContainer extends React.Component<
   RouteComponentProps,
@@ -48,20 +45,15 @@ class ConfirmEmailContainer extends React.Component<
 
     // show progress spinner
     this.setState({ loading: true })
-    console.log({USER:  this.state.username, CODE: confirmationCode})
 
-      axios
-        .post(`${baseUrl}/confirm`, {
-          username: this.state.username,
-          code: confirmationCode
-        })
+    Auth.confirmSignUp(this.state.username, confirmationCode)
       .then(() => {
         this.handleOpenNotification(
           'success',
           'Succesfully confirmed!',
           'You will be redirected to login in a few!'
         )
-        })
+      })
       .catch((err) => {
         this.handleOpenNotification('error', 'Invalid code', err.message)
         this.setState({

@@ -1,6 +1,6 @@
-import axios from 'axios'
 import * as React from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import { Auth } from 'aws-amplify'
 import { Form, Icon, Spin, Input, Button, notification, Row, Col } from 'antd'
 
 /** Presentational */
@@ -18,8 +18,6 @@ type State = {
   redirect: boolean
   loading: boolean
 }
-
-const baseUrl = 'https://t5n7j723yd.execute-api.us-east-1.amazonaws.com'
 
 class ForgotPasswordContainer extends React.Component<Props, State> {
   state = {
@@ -41,9 +39,8 @@ class ForgotPasswordContainer extends React.Component<Props, State> {
             username,
           })
 
-          axios
-          .post(`${baseUrl}/forgotPassword`, {username})
-            .then(() => {
+          Auth.forgotPassword(username)
+            .then((data) => {
               notification.success({
                 message: 'Redirecting you in a few!',
                 description: 'Account confirmed successfully!',

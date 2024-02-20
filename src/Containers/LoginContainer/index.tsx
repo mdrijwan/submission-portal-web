@@ -1,6 +1,6 @@
-import axios from 'axios'
 import * as React from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
+import { Auth } from 'aws-amplify'
 import { Form, Icon, Spin, Input, Button, notification, Col, Row } from 'antd'
 
 /** Presentational */
@@ -11,8 +11,6 @@ import { colors } from '../../Themes/Colors'
 
 /** App constants */
 import { AUTH_USER_TOKEN_KEY } from '../../Utils/constants'
-
-const baseUrl = 'https://t5n7j723yd.execute-api.us-east-1.amazonaws.com'
 
 type Props = RouteComponentProps & {
   form: any
@@ -30,57 +28,55 @@ class LoginContainer extends React.Component<Props, State> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
-    let name: string = ''
+    this.props.form.validateFields(
+      (err: Error, values: { username: string; password: string }) => {
+        if (!err) {
+          const { username, password } = values
 
-    this.props.form.validateFields((err: Error, values: { username: string; password: string }) => {
-      if (!err) {
-        const { username, password } = values
+          this.setState({ loading: true })
 
-        this.setState({ loading: true })
-
-        axios
-          .post(`${baseUrl}/login`, {
-            username: username,
-            password: password,
-          })
-          .then((response) => {
-            const tokenStr = response.data.success.AuthenticationResult.AccessToken
-            axios.get(`${baseUrl}/get`, { headers: { Authorization: `Bearer ${tokenStr}` } }).then(
-              (result) => {
-                for (let attribute of result.data.userAttributes) {
-                  if (attribute.Name === 'name') {
-                    name = attribute.Value
-                  }
-                }
-
-                sessionStorage.setItem('fullName', name)
-
-                localStorage.setItem(AUTH_USER_TOKEN_KEY, tokenStr)
-                // console.log('TOKEN: ', response.data.success)
-                notification.success({
-                  message: 'Succesfully logged in!',
-                  description: 'Logged in successfully, Redirecting you in a few!',
-                  placement: 'topRight',
-                  duration: 1.5,
-                })
+          Auth.signIn(username, password)
+            .then((user) => {
+              const { history, location } = this.props
+              const { from } = location.state || {
+                from: {
+                  pathname: '/dashboard',
+                },
               }
-            )
 
-            this.props.history.push('/dashboard')
-          })
-          .catch((err) => {
-            notification.error({
-              message: 'Error',
-              description: err.message,
-              placement: 'topRight',
+              localStorage.setItem(
+                AUTH_USER_TOKEN_KEY,
+                user.signInUserSession.idToken.jwtToken
+              )
+              console.log(
+                'TOKEN: ',
+                user.signInUserSession.idToken.jwtToken
+              )
+
+              notification.success({
+                message: 'Succesfully logged in!',
+                description:
+                  'Logged in successfully, Redirecting you in a few!',
+                placement: 'topRight',
+                duration: 1.5,
+              })
+
+              history.push(from)
             })
+            .catch((err) => {
+              notification.error({
+                message: 'Error',
+                description: err.message,
+                placement: 'topRight',
+              })
 
-            console.log(err)
+              console.log(err)
 
-            this.setState({ loading: false })
-          })
+              this.setState({ loading: false })
+            })
+        }
       }
-    })
+    )
   }
 
   render() {
@@ -95,12 +91,17 @@ class LoginContainer extends React.Component<Props, State> {
               rules: [
                 {
                   required: true,
-                  message: 'Please input your username here!',
+                  message: 'Please input your username!',
                 },
               ],
             })(
               <Input
-                prefix={<Icon type="user" style={{ color: colors.transparentBlack }} />}
+                prefix={
+                  <Icon
+                    type="user"
+                    style={{ color: colors.transparentBlack }}
+                  />
+                }
                 placeholder="Username"
               />
             )}
@@ -115,7 +116,12 @@ class LoginContainer extends React.Component<Props, State> {
               ],
             })(
               <Input
-                prefix={<Icon type="lock" style={{ color: colors.transparentBlack }} />}
+                prefix={
+                  <Icon
+                    type="lock"
+                    style={{ color: colors.transparentBlack }}
+                  />
+                }
                 type="password"
                 placeholder="Password"
               />
@@ -141,7 +147,11 @@ class LoginContainer extends React.Component<Props, State> {
                   className="login-form-button"
                 >
                   {loading ? (
-                    <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
+                    <Spin
+                      indicator={
+                        <Icon type="loading" style={{ fontSize: 24 }} spin />
+                      }
+                    />
                   ) : (
                     'Log in'
                   )}

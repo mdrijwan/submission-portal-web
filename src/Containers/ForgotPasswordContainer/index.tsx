@@ -42,7 +42,7 @@ class ForgotPasswordContainer extends React.Component<Props, State> {
           })
 
           axios
-          .post(`${baseUrl}/forgotPassword`, {username})
+            .post(`${baseUrl}/forgotPassword`, { username })
             .then(() => {
               notification.success({
                 message: 'Redirecting you in a few!',

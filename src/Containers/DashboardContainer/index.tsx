@@ -30,7 +30,12 @@ const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
 
   return (
     <Layout className="cover" id="app-header">
-      <Layout.Sider className="cover" trigger={null} collapsible collapsed={collapsed}>
+      <Layout.Sider
+        className="cover"
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+      >
         <div className="logo" />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item key="1">

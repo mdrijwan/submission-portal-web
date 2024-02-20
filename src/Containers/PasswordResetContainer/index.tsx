@@ -81,7 +81,7 @@ class PasswordResetContainer extends React.Component<Props, State> {
             .post(`${baseUrl}/confirmPassword`, {
               username,
               code,
-              password
+              password,
             })
             .then(() => {
               notification.success({
@@ -171,8 +171,7 @@ class PasswordResetContainer extends React.Component<Props, State> {
             >
               {getFieldDecorator('password', {
                 rules: [
-                  { required: true,
-message: 'Please input your Password!' },
+                  { required: true, message: 'Please input your Password!' },
                   {
                     validator: this.validateToNextPassword,
                   },

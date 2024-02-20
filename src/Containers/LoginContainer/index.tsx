@@ -32,55 +32,61 @@ class LoginContainer extends React.Component<Props, State> {
 
     let name: string = ''
 
-    this.props.form.validateFields((err: Error, values: { username: string; password: string }) => {
-      if (!err) {
-        const { username, password } = values
+    this.props.form.validateFields(
+      (err: Error, values: { username: string; password: string }) => {
+        if (!err) {
+          const { username, password } = values
 
-        this.setState({ loading: true })
+          this.setState({ loading: true })
 
-        axios
-          .post(`${baseUrl}/login`, {
-            username: username,
-            password: password,
-          })
-          .then((response) => {
-            const tokenStr = response.data.success.AuthenticationResult.AccessToken
-            axios.get(`${baseUrl}/get`, { headers: { Authorization: `Bearer ${tokenStr}` } }).then(
-              (result) => {
-                for (let attribute of result.data.userAttributes) {
-                  if (attribute.Name === 'name') {
-                    name = attribute.Value
-                  }
-                }
-
-                sessionStorage.setItem('fullName', name)
-
-                localStorage.setItem(AUTH_USER_TOKEN_KEY, tokenStr)
-                // console.log('TOKEN: ', response.data.success)
-                notification.success({
-                  message: 'Succesfully logged in!',
-                  description: 'Logged in successfully, Redirecting you in a few!',
-                  placement: 'topRight',
-                  duration: 1.5,
-                })
-              }
-            )
-
-            this.props.history.push('/dashboard')
-          })
-          .catch((err) => {
-            notification.error({
-              message: 'Error',
-              description: err.message,
-              placement: 'topRight',
+          axios
+            .post(`${baseUrl}/login`, {
+              username: username,
+              password: password,
             })
+            .then((response) => {
+              const tokenStr =
+                response.data.success.AuthenticationResult.AccessToken
+              axios
+                .get(`${baseUrl}/get`, {
+                  headers: { Authorization: `Bearer ${tokenStr}` },
+                })
+                .then((result) => {
+                  for (let attribute of result.data.userAttributes) {
+                    if (attribute.Name === 'name') {
+                      name = attribute.Value
+                    }
+                  }
 
-            console.log(err)
+                  sessionStorage.setItem('fullName', name)
 
-            this.setState({ loading: false })
-          })
+                  localStorage.setItem(AUTH_USER_TOKEN_KEY, tokenStr)
+                  // console.log('TOKEN: ', response.data.success)
+                  notification.success({
+                    message: 'Succesfully logged in!',
+                    description:
+                      'Logged in successfully, Redirecting you in a few!',
+                    placement: 'topRight',
+                    duration: 1.5,
+                  })
+                })
+
+              this.props.history.push('/dashboard')
+            })
+            .catch((err) => {
+              notification.error({
+                message: 'Error',
+                description: err.message,
+                placement: 'topRight',
+              })
+
+              console.log(err)
+
+              this.setState({ loading: false })
+            })
+        }
       }
-    })
+    )
   }
 
   render() {
@@ -100,7 +106,12 @@ class LoginContainer extends React.Component<Props, State> {
               ],
             })(
               <Input
-                prefix={<Icon type="user" style={{ color: colors.transparentBlack }} />}
+                prefix={
+                  <Icon
+                    type="user"
+                    style={{ color: colors.transparentBlack }}
+                  />
+                }
                 placeholder="Username"
               />
             )}
@@ -115,7 +126,12 @@ class LoginContainer extends React.Component<Props, State> {
               ],
             })(
               <Input
-                prefix={<Icon type="lock" style={{ color: colors.transparentBlack }} />}
+                prefix={
+                  <Icon
+                    type="lock"
+                    style={{ color: colors.transparentBlack }}
+                  />
+                }
                 type="password"
                 placeholder="Password"
               />
@@ -141,7 +157,11 @@ class LoginContainer extends React.Component<Props, State> {
                   className="login-form-button"
                 >
                   {loading ? (
-                    <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
+                    <Spin
+                      indicator={
+                        <Icon type="loading" style={{ fontSize: 24 }} spin />
+                      }
+                    />
                   ) : (
                     'Log in'
                   )}

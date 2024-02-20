@@ -113,18 +113,19 @@ class SignUpContainer extends React.Component<Props, State> {
           this.setState({ loading: true })
 
           axios
-          .post(`${baseUrl}/register`, {
-            username: email,
-            password,
-            fname,
-            lname,
-            phone: phoneNumber
-          })
+            .post(`${baseUrl}/register`, {
+              username: email,
+              password,
+              fname,
+              lname,
+              phone: phoneNumber,
+            })
             .then((response) => {
               console.log('RES: ', response.data)
               notification.success({
                 message: 'Succesfully signed up user!',
-                description: 'Account created successfully, Redirecting you in a few!',
+                description:
+                  'Account created successfully, Redirecting you in a few!',
                 placement: 'topRight',
                 duration: 1.5,
                 onClose: () => {
@@ -268,8 +269,7 @@ class SignUpContainer extends React.Component<Props, State> {
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('email', {
-              rules: [{ required: true,
-message: 'Please input your email!' }],
+              rules: [{ required: true, message: 'Please input your email!' }],
             })(
               <Input
                 prefix={
@@ -311,8 +311,7 @@ message: 'Please input your email!' }],
             >
               {getFieldDecorator('password', {
                 rules: [
-                  { required: true,
-message: 'Please input your Password!' },
+                  { required: true, message: 'Please input your Password!' },
                   {
                     validator: this.validateToNextPassword,
                   },

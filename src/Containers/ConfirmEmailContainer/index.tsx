@@ -48,20 +48,20 @@ class ConfirmEmailContainer extends React.Component<
 
     // show progress spinner
     this.setState({ loading: true })
-    console.log({USER:  this.state.username, CODE: confirmationCode})
+    console.log({ USER: this.state.username, CODE: confirmationCode })
 
-      axios
-        .post(`${baseUrl}/confirm`, {
-          username: this.state.username,
-          code: confirmationCode
-        })
+    axios
+      .post(`${baseUrl}/confirm`, {
+        username: this.state.username,
+        code: confirmationCode,
+      })
       .then(() => {
         this.handleOpenNotification(
           'success',
           'Succesfully confirmed!',
           'You will be redirected to login in a few!'
         )
-        })
+      })
       .catch((err) => {
         this.handleOpenNotification('error', 'Invalid code', err.message)
         this.setState({
